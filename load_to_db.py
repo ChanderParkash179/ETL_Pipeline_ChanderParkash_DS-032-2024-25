@@ -40,8 +40,10 @@ try:
     duplicates = random.sample(unique_records, 400)  # Choose 400 records to duplicate
     duplicate_records = []
     for record in duplicates:
-        # Randomly pick one of the existing records to duplicate
-        duplicate_records.append(record)
+        # Make sure the duplicated record doesn't have the same _id
+        record_copy = record.copy()  # Make a copy of the record
+        record_copy.pop('_id', None)  # Remove the _id field if it exists
+        duplicate_records.append(record_copy)
 
     # Combine unique records and duplicates
     all_records = unique_records + duplicate_records
