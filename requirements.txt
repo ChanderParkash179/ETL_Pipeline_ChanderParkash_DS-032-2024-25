@@ -4,3 +4,4 @@ kagglehub
 pymongo
 matplotlib
 seaborn
+faker
