@@ -111,4 +111,4 @@ The final cleaned data is saved as:
 
 ## CI/CD Pipeline
 
-- available cicd.yml file in .github/workflows/ path
+- available `cicd.yml` file in `.github/workflows/cicd.yml` path
