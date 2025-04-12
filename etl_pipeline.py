@@ -184,15 +184,3 @@ with open("./config/db_config.json", "r") as f:
 
 # Call the method to export data from MongoDB collection to CSV
 export_data_to_csv(mongo_uri, "sports_data", "load_sports_data")
-
-# scheduler
-
-def job():
-    subprocess.run(["python", "scheduler.py"])
-
-# Schedule the job every 24 hours
-schedule.every(24).hours.do(job)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
