@@ -109,6 +109,32 @@ The final cleaned data is saved as:
 
 - it'll read from scheduler.py and run script after every 24 hours
 
-## CI/CD Pipeline
+## CI/CD Pipeline – GitHub Actions
 
-- available `cicd.yml` file in `.github/workflows/cicd.yml` path
+This project uses GitHub Actions for continuous integration and deployment of the ETL pipeline.
+
+### Workflow Trigger
+- **Triggered on:** Push or pull request to the `main` branch.
+
+### Steps
+
+1. **Checkout Repository**  
+   Retrieves the code from the GitHub repository.
+
+2. **Set Up Python Environment**  
+   - Uses Python 3.9  
+   - Installs dependencies from `requirements.txt` and `notebook` for notebook conversion.
+
+3. **Create Directories**  
+   Ensures required folders `data/` and `output/` exist.
+
+4. **MongoDB Configuration**  
+   - Sets `MONGO_URI` from GitHub Secrets.  
+   - Writes it to `db_config.json`.
+
+5. **Run ETL Script**  
+   - Cleans up Colab-specific code from `etl_pipeline.py`.  
+   - Executes the ETL pipeline.
+
+6. **Upload Artifacts**  
+   - Uploads `output/final_cleaned_data.csv` as a workflow artifact.
