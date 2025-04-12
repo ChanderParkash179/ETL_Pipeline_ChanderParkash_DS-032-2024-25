@@ -25,10 +25,6 @@ jobs:
         pip install -r requirements.txt
         pip install notebook  # Required for nbconvert
 
-    - name: Convert notebook to Python script
-      run: |
-        jupyter nbconvert --to script etl_pipeline.ipynb
-
     - name: Create necessary directories
       run: |
         mkdir -p data
