@@ -36,7 +36,7 @@ jobs:
         echo '{"mongo_uri": "'"$MONGO_URI"'"}' > db_config.json
 
     - name: Run ETL Pipeline
-      run: python etl_pipeline.py
+      run: python etl_pipeline.ipynb
 
     - name: Upload processed data as artifact
       uses: actions/upload-artifact@v4
