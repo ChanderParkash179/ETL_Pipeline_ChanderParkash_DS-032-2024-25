@@ -127,9 +127,9 @@ def etl_pipeline():
     collection_name = "sports_data"
 
     # Extract data from different sources
-    csv_data = extract_csv("./sports_data.csv")
-    json_data = extract_json("./sports_data.json")
-    excel_data = extract_excel("./sports_data.xlsx")
+    csv_data = extract_csv("./data/sports_data.csv")
+    json_data = extract_json("./data/sports_data.json")
+    excel_data = extract_excel("./data/sports_data.xlsx")
     mongo_data = extract_mongodb(mongo_uri, db_name, collection_name)
 
     # Combine all data into one list
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     etl_pipeline()
 
 # Method to query data from MongoDB and save it as CSV
-def export_data_to_csv(mongo_uri, db_name, collection_name, output_dir='/output', csv_file_name='final_cleaned_data.csv'):
+def export_data_to_csv(mongo_uri, db_name, collection_name, output_dir='./output', csv_file_name='final_cleaned_data.csv'):
     print(f"❯ Querying data from MongoDB collection '{collection_name}' in database '{db_name}'...")
 
     # Establish connection to MongoDB
@@ -176,7 +176,7 @@ def export_data_to_csv(mongo_uri, db_name, collection_name, output_dir='/output'
     # If you want to download the file from Colab to your local machine
     files.download(csv_file_path)
 
-with open("./db_config.json", "r") as f:
+with open("./config/db_config.json", "r") as f:
   config = json.load(f)
 
   mongo_uri = config.get("mongo_uri")
