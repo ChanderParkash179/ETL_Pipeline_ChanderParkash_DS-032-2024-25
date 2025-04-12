@@ -9,15 +9,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /content  # Added to match your script's expected paths
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        path: /content  # Sets up the same directory structure as Colab
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -31,23 +26,23 @@ jobs:
 
     - name: Create necessary directories
       run: |
-        mkdir -p /content/data
-        mkdir -p /content/output
+        mkdir -p data
+        mkdir -p output
 
     - name: Configure MongoDB Atlas Connection
       env:
         MONGO_URI: ${{ secrets.MONGO_URI }}
       run: |
-        echo '{"mongo_uri": "'"$MONGO_URI"'"}' > /content/db_config.json
+        echo '{"mongo_uri": "'"$MONGO_URI"'"}' > db_config.json
 
     - name: Run ETL Pipeline
-      run: python /content/etl_pipeline.py
+      run: python etl_pipeline.py
 
     - name: Upload processed data as artifact
-      uses: actions/upload-artifact@v4  # Updated to v4
+      uses: actions/upload-artifact@v4
       with:
         name: processed-data
-        path: /content/output/final_cleaned_data.csv
+        path: output/final_cleaned_data.csv
 
     - name: Deploy to production (example)
       if: github.ref == 'refs/heads/main'
