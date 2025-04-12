@@ -108,3 +108,7 @@ The final cleaned data is saved as:
 ## Scheduler
 
 - it'll read from scheduler.py and run script after every 24 hours
+
+## CI/CD Pipeline
+
+- available cicd.yml file in .github/workflows/ path

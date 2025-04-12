@@ -1,0 +1,47 @@
+name: ETL Pipeline CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Configure MongoDB Atlas Connection
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+      run: |
+        echo '{"mongo_uri": "'"$MONGO_URI"'"}' > db_config.json
+
+    - name: Run ETL Pipeline
+      run: python etl_pipeline.py
+
+    - name: Upload processed data as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: processed-data
+        path: output/final_cleaned_data.csv
+
+    - name: Deploy to production (example)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deployment would happen here"
+        # This would be replaced with actual deployment steps
+        # For example: scp files to server, deploy to cloud, etc.
