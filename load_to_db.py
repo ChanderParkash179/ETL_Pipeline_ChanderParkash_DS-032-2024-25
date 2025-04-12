@@ -6,28 +6,8 @@ from pymongo import MongoClient
 fake = Faker()
 
 # Step 1: Load config
-# Define possible config file paths
-config_paths = [
-    "./config/db_config.json",
-    "/content/config/db_config.json"
-]
-
-config = None
-
-# Try each path in order
-for path in config_paths:
-    if os.path.exists(path):
-        try:
-            with open(path, "r") as f:
-                config = json.load(f)
-            break  # Stop after first successful load
-        except json.JSONDecodeError:
-            print(f"Error: Could not parse JSON from {path}")
-        except Exception as e:
-            print(f"Error loading {path}: {str(e)}")
-
-if config is None:
-    raise FileNotFoundError("Could not find or load db_config.json in any of the specified locations")
+with open("./db_config.json", "r") as f:
+    config = json.load(f)
 
 mongo_uri = config.get("mongo_uri")
 if not mongo_uri:
