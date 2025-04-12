@@ -5,3 +5,4 @@ pymongo
 matplotlib
 seaborn
 faker
+openpyxl
