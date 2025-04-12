@@ -23,6 +23,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install notebook  # Required for nbconvert
+
+    - name: Convert notebook to Python script
+      run: |
+        jupyter nbconvert --to script etl_pipeline.ipynb
 
     - name: Create necessary directories
       run: |
@@ -36,16 +41,16 @@ jobs:
         echo '{"mongo_uri": "'"$MONGO_URI"'"}' > db_config.json
 
     - name: Run ETL Pipeline
-      run: python etl_pipeline.ipynb
+      run: |
+        # Remove Colab-specific commands and fix paths
+        sed -i '/\!pip install/d' etl_pipeline.py
+        sed -i 's/\/content\///g' etl_pipeline.py
+        sed -i '/google.colab import files/d' etl_pipeline.py
+        sed -i '/files.download/d' etl_pipeline.py
+        python etl_pipeline.py
 
     - name: Upload processed data as artifact
       uses: actions/upload-artifact@v4
       with:
         name: processed-data
         path: output/final_cleaned_data.csv
-
-    - name: Deploy to production (example)
-      if: github.ref == 'refs/heads/main'
-      run: |
-        echo "Deployment would happen here"
-        # Add your actual deployment commands here
