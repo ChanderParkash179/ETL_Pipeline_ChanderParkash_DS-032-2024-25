@@ -21,6 +21,7 @@ import subprocess
 import faker
 import json
 import os
+import openpyxl
 
 try:
     result = subprocess.run(["python3", "./load_to_db.py"], check=True, capture_output=True, text=True)
