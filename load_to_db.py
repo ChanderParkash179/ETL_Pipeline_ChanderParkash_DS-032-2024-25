@@ -6,7 +6,7 @@ from pymongo import MongoClient
 fake = Faker()
 
 # Step 1: Load config
-with open("./db_config.json", "r") as f:
+with open("./config/db_config.json", "r") as f:
     config = json.load(f)
 
 mongo_uri = config.get("mongo_uri")
