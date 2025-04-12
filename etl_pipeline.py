@@ -120,7 +120,7 @@ def extract_data_from_files_and_mongo():
 # Main ETL pipeline function
 def etl_pipeline():
     # MongoDB connection URI and database name
-    with open("./db_config.json", "r") as f:
+    with open("./config/db_config.json", "r") as f:
         config = json.load(f)
 
     mongo_uri = config.get("mongo_uri")
