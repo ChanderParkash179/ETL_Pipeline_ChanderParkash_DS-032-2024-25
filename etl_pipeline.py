@@ -23,7 +23,7 @@ import json
 import os
 
 try:
-    result = subprocess.run(["python3", "/content/load_to_db.py"], check=True, capture_output=True, text=True)
+    result = subprocess.run(["python3", "./load_to_db.py"], check=True, capture_output=True, text=True)
     print("✅ Script executed successfully!\n")
     print(result.stdout)
 except subprocess.CalledProcessError as e:
@@ -108,9 +108,9 @@ def load_to_mongodb(mongo_uri, db_name, collection_name, data):
 # Combine data from multiple sources (CSV, JSON, Excel, MongoDB)
 def extract_data_from_files_and_mongo():
     # Example of reading from CSV, JSON, and Excel files (this should be adapted to your actual paths)
-    csv_data = pd.read_csv("/content/data/sports_data.csv").to_dict(orient="records")
-    json_data = json.load(open("/content/data/sports_data.json", "r"))
-    excel_data = pd.read_excel("/content/data/sports_data.xlsx").to_dict(orient="records")
+    csv_data = pd.read_csv("./data/sports_data.csv").to_dict(orient="records")
+    json_data = json.load(open("./data/sports_data.json", "r"))
+    excel_data = pd.read_excel("./data/sports_data.xlsx").to_dict(orient="records")
     mongo_data = list(collection.find())
 
     all_data = csv_data + json_data + excel_data + mongo_data
@@ -119,7 +119,7 @@ def extract_data_from_files_and_mongo():
 # Main ETL pipeline function
 def etl_pipeline():
     # MongoDB connection URI and database name
-    with open("/content/db_config.json", "r") as f:
+    with open("./db_config.json", "r") as f:
         config = json.load(f)
 
     mongo_uri = config.get("mongo_uri")
@@ -127,9 +127,9 @@ def etl_pipeline():
     collection_name = "sports_data"
 
     # Extract data from different sources
-    csv_data = extract_csv("/content/sports_data.csv")
-    json_data = extract_json("/content/sports_data.json")
-    excel_data = extract_excel("/content/sports_data.xlsx")
+    csv_data = extract_csv("./sports_data.csv")
+    json_data = extract_json("./sports_data.json")
+    excel_data = extract_excel("./sports_data.xlsx")
     mongo_data = extract_mongodb(mongo_uri, db_name, collection_name)
 
     # Combine all data into one list
@@ -176,7 +176,7 @@ def export_data_to_csv(mongo_uri, db_name, collection_name, output_dir='/output'
     # If you want to download the file from Colab to your local machine
     files.download(csv_file_path)
 
-with open("/content/db_config.json", "r") as f:
+with open("./db_config.json", "r") as f:
   config = json.load(f)
 
   mongo_uri = config.get("mongo_uri")
